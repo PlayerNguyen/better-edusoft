@@ -5,13 +5,20 @@ import { createHashRouter, RouterProvider } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import SignIn from "./components/SignIn/SignIn";
-import AppWrapper from "../src/AppWrapper/AppWrapper";
+import AppWrapper from "./pages/AppWrapper/AppWrapper";
 import { RootState } from "../src/Store";
+import Home from "./pages/Home/Home";
 
 const hashRouter = createHashRouter([
   {
     path: "/",
     element: <AppWrapper />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+    ],
   },
 ]);
 

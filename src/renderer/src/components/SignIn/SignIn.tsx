@@ -25,16 +25,19 @@ export default function SignIn() {
     setRemember(v);
   };
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault();
+
     window.api.edusoft
       .signIn(studentId, password)
-      .then(({ studentId, password, sessionId }) => {
+      .then(({ sessionId }) => {
         if (remember) {
+          alert(sessionId);
         }
 
         // Set the session id onto current state
         dispatch(setSessionId(sessionId));
-        alert(`successfully signed in`);
+        // alert(`successfully signed in`);
       })
       .catch((err) => alert(err));
   };
@@ -42,7 +45,10 @@ export default function SignIn() {
   return (
     <div className="p-12 flex flex-col min-h-[100vh] bg-neutral-300 dark:bg-neutral-800 place-items-center justify-center shadow-md">
       {/* Sign in Form */}
-      <form className="w-2/4 bg-neutral-200 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-200 rounded-md px-6 py-4 flex flex-col gap-4">
+      <form
+        className="w-2/4 bg-neutral-200 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-200 rounded-md px-6 py-4 flex flex-col gap-4"
+        onSubmit={handleLogin}
+      >
         <div>
           <h1 className="font-bold text-3xl">Better Edusoft</h1>
           <h2 className="text-1xl text-neutral-500 dark:text-neutral-600">
@@ -77,7 +83,7 @@ export default function SignIn() {
           />
         </div>
         <div>
-          <Button context={<>Sign in</>} onClick={handleLogin} />
+          <Button type="submit" context={<>Sign in</>} />
         </div>
       </form>
     </div>
