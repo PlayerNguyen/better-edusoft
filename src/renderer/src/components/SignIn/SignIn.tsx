@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Checkbox from "../Checkbox/Checkbox";
 import IconInput from "../Input/IconInput";
 import { AiFillIdcard, AiOutlineKey } from "react-icons/ai";
 import Button from "../Button/Button";
 import { useDispatch } from "react-redux";
-import { setSessionId } from "../../slices/RootSlice";
+import { setUser } from "../../slices/RootSlice";
 
 export default function SignIn() {
   const [studentId, setStudentId] = useState<string>("");
@@ -26,20 +26,25 @@ export default function SignIn() {
   };
 
   const handleLogin = (e) => {
+    // Prevent the form to navigate uncontrollable
     e.preventDefault();
 
+    // Send the request
     window.api.edusoft
       .signIn(studentId, password)
-      .then(({ sessionId }) => {
+      .then((user) => {
         if (remember) {
-          alert(sessionId);
+          // alert(sessionId);
         }
 
         // Set the session id onto current state
-        dispatch(setSessionId(sessionId));
+        dispatch(setUser(user));
         // alert(`successfully signed in`);
       })
-      .catch((err) => alert(err));
+      .catch((err) => {
+        // TODO: create a modal to announce error
+        alert(err);
+      });
   };
 
   return (

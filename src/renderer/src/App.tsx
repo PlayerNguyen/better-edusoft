@@ -23,8 +23,8 @@ const hashRouter = createHashRouter([
 ]);
 
 export default function App() {
-  const sessionId = useSelector((state: RootState) => state.app.sessionId);
-  return sessionId === undefined ? (
+  const user = useSelector((state: RootState) => state.app.user);
+  return user === undefined ? (
     <SignIn />
   ) : (
     <RouterProvider router={hashRouter} />
