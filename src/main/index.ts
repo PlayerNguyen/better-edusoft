@@ -10,7 +10,12 @@ function createWindow() {
     },
     show: false,
   });
-  window.loadURL("http://localhost:5173");
+
+  if (!app.isPackaged && process.env["ELECTRON_RENDERER_URL"]) {
+    window.loadURL(process.env["ELECTRON_RENDERER_URL"]);
+  } else {
+    window.loadFile(path.join(__dirname, "../renderer/index.html"));
+  }
 
   /**
    * Only show if the window is prepared
@@ -18,8 +23,11 @@ function createWindow() {
   window.on("ready-to-show", () => {
     window.show();
   });
+
+  // console.log(process.env);
   // Remove the menu top-bar on Windows
   window.setMenu(null);
+
   return window;
 }
 

@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
-import { request } from "../main/request";
+import { request } from "../../main/request";
 /* This object is to declare the interface */
 export interface PreloadAPIInterface {
   version: {

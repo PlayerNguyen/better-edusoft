@@ -3,11 +3,15 @@ import Checkbox from "../Checkbox/Checkbox";
 import IconInput from "../Input/IconInput";
 import { AiFillIdcard, AiOutlineKey } from "react-icons/ai";
 import Button from "../Button/Button";
+import { useDispatch } from "react-redux";
+import { setSessionId } from "../../slices/RootSlice";
 
 export default function SignIn() {
   const [studentId, setStudentId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [remember, setRemember] = useState<boolean>(false);
+
+  const dispatch = useDispatch();
 
   const handleChangeStudentId = (e) => {
     setStudentId(e.target.value);
@@ -24,10 +28,13 @@ export default function SignIn() {
   const handleLogin = () => {
     window.api.edusoft
       .signIn(studentId, password)
-      .then(() => {
+      .then(({ studentId, password, sessionId }) => {
         if (remember) {
-          
         }
+
+        // Set the session id onto current state
+        dispatch(setSessionId(sessionId));
+        alert(`successfully signed in`);
       })
       .catch((err) => alert(err));
   };
