@@ -8,9 +8,9 @@ function createWindow() {
     webPreferences: {
       preload: path.resolve(__dirname, "..", "preload.js"),
     },
+    show: false,
   });
   window.loadURL("http://localhost:5173");
-  window.hide();
 
   /**
    * Only show if the window is prepared
@@ -18,7 +18,8 @@ function createWindow() {
   window.on("ready-to-show", () => {
     window.show();
   });
-
+  // Remove the menu top-bar on Windows
+  window.setMenu(null);
   return window;
 }
 
