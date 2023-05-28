@@ -2,6 +2,11 @@ import { BrowserWindow, app, ipcMain } from "electron";
 import path from "path";
 import { IpcRecordRegister } from "./ipc/ipcRegister";
 import { IpcRequestSignIn } from "./ipc/IpcRequestSignIn";
+import isDev from "electron-is-dev";
+import installExtension, {
+  REDUX_DEVTOOLS,
+  REACT_DEVELOPER_TOOLS,
+} from "electron-devtools-installer";
 
 function createWindow() {
   const window = new BrowserWindow({
@@ -11,8 +16,15 @@ function createWindow() {
     show: false,
   });
 
-  if (!app.isPackaged && process.env["ELECTRON_RENDERER_URL"]) {
-    window.loadURL(process.env["ELECTRON_RENDERER_URL"]);
+  if (isDev) {
+    if (process.env["ELECTRON_RENDERER_URL"]) {
+      window.loadURL(process.env["ELECTRON_RENDERER_URL"]);
+    }
+
+    // open the devTools right away
+    window.webContents.openDevTools({
+      mode: "detach",
+    });
   } else {
     window.loadFile(path.join(__dirname, "../renderer/index.html"));
   }
@@ -24,7 +36,6 @@ function createWindow() {
     window.show();
   });
 
-  // console.log(process.env);
   // Remove the menu top-bar on Windows
   window.setMenu(null);
 
@@ -51,7 +62,35 @@ function loadIpc() {
   });
 }
 
+function installDebugExtensions() {
+  // Install some debug extensions
+  if (isDev) {
+    installExtension([REACT_DEVELOPER_TOOLS])
+      .then((extensions) => {
+        console.log(`Added extensions: ${extensions}`);
+      })
+      .catch((err) => console.error(err));
+  }
+}
+
 app.whenReady().then(async () => {
+  installDebugExtensions();
+
   createWindow();
   loadIpc();
+
+  app.on("activate", function () {
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+});
+
+// Quit when all windows are closed, except on macOS. There, it's common
+// for applications and their menu bar to stay active until the user quits
+// explicitly with Cmd + Q.
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
 });

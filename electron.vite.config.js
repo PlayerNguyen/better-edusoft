@@ -6,17 +6,16 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin(), swcPlugin()],
     build: {
       outDir: "./dist/main",
+      sourcemap: true,
     },
   },
   preload: {
     plugins: [externalizeDepsPlugin()],
+    build: {
+      outDir: "./dist/preload",
+    },
   },
   renderer: {
-    resolve: {
-      // alias: {
-      //   // "@renderer": resolve("src/renderer/src"),
-      // },
-    },
     plugins: [react()],
   },
 });

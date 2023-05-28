@@ -27,6 +27,7 @@
     "classnames": "^2.3.2",
     "concurrently": "^8.0.1",
     "dotenv": "^16.0.3",
+    "electron-devtools-installer": "^3.2.0",
     "electron-vite": "^1.0.22",
     "mocha": "^10.2.0",
     "nodemon": "^2.0.22",
@@ -43,6 +44,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
     "electron": "24.2.0",
+    "electron-is-dev": "^2.0.0",
     "node-html-parser": "^6.1.5",
     "react-redux": "^8.0.5",
     "set-cookie-parser": "^2.6.0"
