@@ -4,15 +4,9 @@
   "main": "./dist/main/index.js",
   "license": "MIT",
   "scripts": {
-    "dev-renderer": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "watch-main": "swc ./main -d ./dist/main -s -w",
-    "watch-preload": "swc ./preload/preload.ts -o ./dist/preload.js -w",
-    "watch": "concurrently \"npm:watch-*\" -p -c --kill-others-on-fail",
-    "dev-main": "nodemon --exec \"electron ./dist/main/index.js\" --watch dist/main",
-    "dev": "concurrently \"npm:watch\" \"npm:dev-*\" -p -c -l 3 --kill-others-on-fail",
-    "start": "electron ./dist/main/index.js",
+    "build": "electron-vite build",
+    "dev": "electron-vite dev",
+    "start": "electron-vite preview",
     "test-unit": "mocha"
   },
   "devDependencies": {
@@ -33,6 +27,8 @@
     "classnames": "^2.3.2",
     "concurrently": "^8.0.1",
     "dotenv": "^16.0.3",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-vite": "^1.0.22",
     "mocha": "^10.2.0",
     "nodemon": "^2.0.22",
     "postcss": "^8.4.23",
@@ -48,6 +44,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
     "electron": "24.2.0",
+    "electron-is-dev": "^2.0.0",
     "node-html-parser": "^6.1.5",
     "react-redux": "^8.0.5",
     "set-cookie-parser": "^2.6.0"
