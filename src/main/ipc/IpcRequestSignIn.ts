@@ -1,3 +1,4 @@
+import { schedule } from "../timetable";
 import { request } from "./../request";
 import { IpcChannels, IpcInvokeRecord } from "./ipcRegister";
 
@@ -17,7 +18,10 @@ export class IpcRequestSignIn extends IpcInvokeRecord<request.EdusoftSignInRespo
     }
 
     console.log(`Successfully login with student id ${studentId}`);
-
-    return await request.getRequestor().sendLoginRequest(studentId, password);
+    const response = await request
+      .getRequestor()
+      .sendLoginRequest(studentId, password);
+    await schedule.getScheduleFromCurrentSession();
+    return response;
   };
 }
